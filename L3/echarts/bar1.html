@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts 条形图</title>
+    <!-- 引入 echarts.js -->
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+ 
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '昨日新增确诊国家 Top10'
+            },
+            tooltip: {},
+            legend: {
+                data:['新增确诊']
+            },
+            xAxis: {
+                data: ["美国","西班牙","意大利","法国","德国","伊朗","英国","以色列","荷兰","奥地利"]
+            },
+            yAxis: {},
+            series: [{
+                name: '新增',
+                type: 'bar',
+                data: [13981, 7457, 5210, 2933, 1970, 1700, 1452, 1000, 852, 684]
+            }]
+        };
+ 
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

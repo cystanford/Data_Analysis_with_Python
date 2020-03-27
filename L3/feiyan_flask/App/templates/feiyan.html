@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script src="{{ url_for('static',filename='common/jq.js') }}"></script>
+    <script src="{{ url_for('static',filename='common/echarts.min.js') }}"></script>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    
+    html,
+    body {
+        height: 100%;
+        width: 100%;
+        font: 14px/1.5 "Microsoft YaHei", Arial, 微软雅黑, SimSun, 宋体 !important;
+    }
+    
+    .new-dataShowCnt--nHDjc {
+        display: flex;
+        justify-content: space-between;
+        height: 400px;
+    }
+    
+    .new-dataShowCnt--nHDjc .new-dataShowLeft--gOWc_ {
+        width: 20%;
+        padding-right: 38px;
+        position: relative;
+        padding-top: 15px;
+    }
+    
+    .new-dataShowCnt--nHDjc .new-dataShowLeft--gOWc_:before {
+        content: "";
+        position: absolute;
+        right: -10px;
+        top: 0;
+        height: 381px;
+        background: #fff;
+        width: 20px;
+        z-index: 5;
+    }
+    
+    .new-dataShowLeft--gOWc_>div.active {
+        background: #ff7800;
+        box-shadow: 0 0 12px rgba(255, 120, 0, .5);
+        color: #fff;
+        border-radius: 40px;
+    }
+    
+    .new-dataShowLeft--gOWc_>div {
+        width: 128px;
+        height: 40px;
+        line-height: 40px;
+        margin: 20px auto;
+        font-size: 16px;
+        color: #585859;
+        text-align: center;
+        cursor: pointer;
+    }
+    
+    .new-dataShowLeft--gOWc_>div {
+        width: 128px;
+        height: 40px;
+        line-height: 40px;
+        margin: 20px auto;
+        font-size: 16px;
+        color: #585859;
+        text-align: center;
+        cursor: pointer;
+    }
+    
+    .new-dataShowLeft--gOWc_>div.new-triangle--Ztp6P {
+        position: absolute;
+        display: inline-block;
+        top: 0;
+        width: 0;
+        right: -15px;
+        height: 0;
+        border-color: #fff #fff transparent transparent;
+        border-style: solid;
+        border-width: 6px;
+        -webkit-transform: rotate(135deg);
+        transform: rotate(45deg);
+        box-shadow: 2px -2px 2px #ccc;
+        z-index: 1;
+        box-shadow: 2px 0 4px 1px rgba(88, 88, 89, .1);
+    }
+    
+    .new-dataShowCnt--nHDjc .new-dataShowLeft--gOWc_:after {
+        content: "";
+        position: absolute;
+        right: -10px;
+        top: 11px;
+        height: 364px;
+        box-shadow: 0 0 10px rgba(88, 88, 89, .15);
+        width: 10px;
+    }
+    
+    .new-dataShowCnt--nHDjc .new-dataShowRight--2jILO {
+        width: 80%;
+        text-align: center;
+        position: relative;
+    }
+    
+    .new-dataShowRight--2jILO>div {
+        width: 100%;
+        height: 100%;
+    }
+    .new-dataShowCnt--nHDjc .new-dataShowRight--2jILO {
+        width: 80%;
+        text-align: center;
+        position: relative;
+    }
+
+    
+    .new-dataShowCnt {
+        margin: 30px 56px 69px;
+        box-shadow: 0 0 12px rgba(88, 88, 89, .5);
+    }
+    
+    .new-conent {
+        width: 100%;
+        height: 170px;
+        display: flex;
+        border-bottom: 1px solid #000000;
+    }
+    
+    .new-left {
+        width: 28%;
+        position: relative;
+    }
+    
+    .new-right {
+        width: 72%;
+        position: relative;
+        padding: 15px;
+    }
+    
+    .player-img {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 150px;
+        width: auto;
+        max-width: none;
+    }
+    
+    .new-right div:nth-child(1) {
+        float: left;
+        overflow: hidden;
+        max-width: 240px;
+        width: 240px;
+    }
+    
+    .new-right div:nth-child(2) {
+        float: left;
+        max-width: 240px;
+        width: 240px;
+        font-size: .85em;
+        color: #7a7a7a;
+        line-height: 1.2em;
+    }
+    
+    .new-right div:nth-child(2)>span {
+        box-sizing: border-box;
+        margin-left: 10px;
+    }
+    
+    .player-number-max {
+        font-family: Roboto, sans-serif;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 44px;
+        color: #be9d53;
+        letter-spacing: -1pt;
+        line-height: 64px;
+        float: left;
+        padding-right: 10px;
+        border-right: 1px solid #dadada;
+        margin-right: 10px;
+    }
+    
+    .visible-lg {
+        position: absolute;
+        right: 12px;
+        width: 90px;
+        z-index: 999;
+    }
+    
+    .visible-lg img {
+        height: 90px;
+        width: 90px;
+    }
+    
+    .content-nav {
+        height: 33px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: #0a0a0a0a;
+        z-index: -1;
+    }
+    
+    .pshopdiv {
+        height: 80px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .pshopdiv div>a {
+        font-size: 20px;
+        padding: 10px 25px;
+        box-shadow: 0 0 12px rgba(95, 81, 81, 0.5);
+        color: #000000;
+        border-radius: 1000px;
+        background-color: #ffffff;
+        text-decoration: none;
+        font-weight: bold;
+        margin: 0 19px;
+    }
+    
+    .databsef {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px;
+    }
+    
+    .databsef .row-li {
+        width: 33%;
+        height: 100%;
+        box-shadow: 0 0 10px rgba(88, 88, 89, .15);
+    }
+    
+    .row-li1 {
+        width: 100%;
+        height: 10%;
+        background-color: #1d428a;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 18px;
+    }
+    
+    .row-li2 {
+        width: 100%;
+        height: 45%;
+    }
+    
+    .row-li3 {
+        width: 100%;
+        height: 45%;
+    }
+    
+    .row-li4 {
+        width: 100%;
+        height: 90%;
+    }
+    
+    #worldp, #koreap, #japanp, #italyp {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .dataImage {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .dataImage img {
+        width: 16%;
+        display: block;
+    }
+    
+    .dataImage div {
+        width: 100%;
+        height: 20px;
+        font-size: 22px;
+        text-align: center;
+        line-height: 20px;
+        font-weight: bold;
+    }
+    
+    .pshopRow {
+        padding: 10px 0px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .pshopRow>div {
+        font-size: 18px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+    }
+    
+    .pshopRow>div:nth-child(1)>div:nth-child(1) {
+        background-color: #1d428a;
+    }
+    
+    .pshopRow>div:nth-child(2)>div:nth-child(1) {
+        background-color: #ff9d00;
+    }
+    
+    .pshopRow>div:nth-child(3)>div:nth-child(1) {
+        background-color: #97d2fe;
+    }
+    
+    .pshopRow>div>div:nth-child(1) {
+        width: 18px;
+        height: 18px;
+        margin-right: 2px;
+    }
+    
+    .pshopRow>div>div:nth-child(2) {
+        margin-right: 20px;
+    }
+</style>
+
+<body>
+    <div class="new-dataShowCnt--nHDjc">
+        <div class="new-dataShowLeft--gOWc_" id="activeList">
+            <div class="li active">全球</div>
+            <div class="li">韩国</div>
+            <div class="li">日本</div>
+            <div class="li">意大利</div>
+        </div>
+        <div class="new-dataShowRight--2jILO">
+            <div style="position: relative;" id="country">
+            </div>
+        </div>
+    </div>
+
+    <div class="new-dataShowCnt--nHDjc">
+        <div class="new-dataShowLeft--gOWc_" id="activeList_line">
+            <div class="li active">中国</div>
+            <div class="li">韩国</div>
+            <div class="li">日本</div>
+            <div class="li">意大利</div>
+            <div class="li">伊朗</div>
+        </div>
+        <div class="new-dataShowRight--2jILO">
+            <div style="position: relative;" id="country_line">
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static',filename='js/map.js') }}"></script>
+    <script>
+        var Data = ['world', 'korea', 'japan', 'italy'];
+        var ListDom = document.getElementById("activeList");
+        for (let i = 0; i < ListDom.children.length; i++) {
+            ListDom.children[i].onclick = function() {
+                for (let j = 0; j < ListDom.children.length; j++) {
+                    ListDom.children[j].classList.remove('active')
+                }
+                ListDom.children[i].classList.add('active')
+                tab_mapdata(Data[i])
+            }
+        }
+        //选项卡数据
+        tab_mapdata(Data[0])
+        //选项卡切换函数
+        function tab_mapdata(country) {
+            //console.log(country);
+            $.get("./static/json/" + country + ".json", function (data){
+                //console.log('haha');
+                echarts.registerMap(country, data);
+                //console.log(country);
+                $.get("/detaildata/" + country,function (country_data) {
+                    //console.log(country_data);
+                    if (country == 'world') {echartsWorld('country', country_data);}
+                    if (country == 'korea') {echartsKorea('country', country_data);}
+                    if (country == 'japan') {echartsJapan('country', country_data);}
+                    if (country == 'italy') {echartsItaly('country', country_data);}
+                }).fail(function(data, type, err){
+                    alert(type + err);
+                })
+
+            }).fail(function(data, type, err){
+                alert(type + err);
+            });
+        }
+
+    </script>
+
+    <script>
+        var Data = ['china', 'korea', 'japan', 'italy', 'iran'];
+        var ListDom2 = document.getElementById("activeList_line");
+        for (let i = 0; i < ListDom2.children.length; i++) {
+            ListDom2.children[i].onclick = function() {
+                for (let j = 0; j < ListDom2.children.length; j++) {
+                    ListDom2.children[j].classList.remove('active')
+                }
+                ListDom2.children[i].classList.add('active')
+                tab_linedata(Data[i])
+            }
+        }
+        //选项卡数据
+        tab_linedata(Data[0])
+        //选项卡切换函数    
+        function tab_linedata(country) {
+            $.get("/detail_linedata/"+country, function (data){
+            //console.log(data)
+            option = {
+                xAxis: [{
+                    type: 'category',
+                    data: data['index'],
+                    axisTick: {
+                        show: false //隐藏X轴刻度
+                    },
+                    axisLabel: {
+                        show: true,
+                        textStyle: {
+                            color: "#000000" //X轴文字颜色
+                        }
+                    },
+                }],
+                yAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value}℃',
+                        show: false
+                    },
+                    axisTick: {
+                        show: false //隐藏X轴刻度
+                    },
+                    axisLabel: {
+                        show: true,
+                        textStyle: {
+                            color: "#000000"
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed',
+                            color: '#cccccc',
+                        }
+                    },
+                }],
+                //滑入的弹窗
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove',
+                    backgroundColor: 'rgba(0,0,0,.8)',
+                    show: true,
+                    formatter: function(params) {
+                        if (isNaN(params.value)) {params.value=0;}
+                        //console.log(params.value);
+                        var tipHtml = `<div style="width:100px;height:50px;background:rgba(227,227,227,0.1);">
+                        <div style="width:100%;height:20px; text-align:center;">
+                            <span style="color:#fff;font-size:16px;">${params.name}</span>
+                        </div>
+                        <div style="">
+                            <p style="color:#fff;font-size:12px;">
+                                 累计确诊：
+                                <span style="color:#11ee7d;">${params.value}</span>人</p>
+                        </div>
+                    </div>
+                    </div>`
+                        return tipHtml;
+                    }
+                },
+
+
+                series: [{
+                    data: data['value'],
+                    type: 'line',
+                    smooth: true,
+                    lineStyle: {
+                        normal: {
+                            width: 5,
+                            color: {
+                                type: 'linear',
+
+                                colorStops: [{
+                                    offset: 0,
+                                    color: '#ffc28d' // 0% 处的颜色
+                                }, {
+                                    offset: 0.4,
+                                    color: '#feb26e' // 100% 处的颜色
+                                }, {
+                                    offset: 1,
+                                    color: '#ff7800' // 100% 处的颜色
+                                }],
+                                globalCoord: false // 缺省为 false
+                            },
+                            shadowColor: '#FFFFFF',
+                            shadowBlur: 10,
+                            shadowOffsetY: 7
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#ffc28d',
+                            borderWidth: 8,
+                            /*shadowColor: 'rgba(72,216,191, 0.3)',
+                             shadowBlur: 100,*/
+                            borderColor: "#ffc28d"
+                        }
+                    },
+                    smooth: true,
+                }]
+            };
+            //初始化echarts实例
+            var myChart = echarts.init(document.getElementById('country_line'));
+            //使用制定的配置项和数据显示图表
+            myChart.setOption(option, true);
+        }).fail(function(data, type, err){
+                alert(type + err);
+            })
+        }
+
+    </script>
+
+</body>
+
+</html>
