@@ -42,4 +42,4 @@ title = " ".join(data['title'])
 genres = " ".join(data['genres'])
 all_word = title + genres
 # 生成词云
-create_word_cloud(text)
+create_word_cloud(all_word)
